@@ -447,7 +447,8 @@ class AdminIndexView(BaseView):
                  template='admin/index.html',
                  menu_class_name=None,
                  menu_icon_type=None,
-                 menu_icon_value=None):
+                 menu_icon_value=None,
+                 decorators=None):
         super(AdminIndexView, self).__init__(name or babel.lazy_gettext('Home'),
                                              category,
                                              endpoint or 'admin',
@@ -455,7 +456,8 @@ class AdminIndexView(BaseView):
                                              'static',
                                              menu_class_name=menu_class_name,
                                              menu_icon_type=menu_icon_type,
-                                             menu_icon_value=menu_icon_value)
+                                             menu_icon_value=menu_icon_value,
+                                             decorators=decorators)
         self._template = template
 
     @expose()
