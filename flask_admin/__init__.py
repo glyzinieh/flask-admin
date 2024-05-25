@@ -1,4 +1,4 @@
-__version__ = '1.7.0'
+__version__ = '1.7.1'
 __author__ = 'Flask-Admin team'
 __email__ = 'serge.koval+github@gmail.com'
 

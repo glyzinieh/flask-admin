@@ -300,7 +300,8 @@ class ModelView(BaseModelView):
 
     def __init__(self, model, session,
                  name=None, category=None, endpoint=None, url=None, static_folder=None,
-                 menu_class_name=None, menu_icon_type=None, menu_icon_value=None):
+                 menu_class_name=None, menu_icon_type=None, menu_icon_value=None,
+                 decorators=None):
         """
             Constructor.
 
@@ -342,7 +343,8 @@ class ModelView(BaseModelView):
         super(ModelView, self).__init__(model, name, category, endpoint, url, static_folder,
                                         menu_class_name=menu_class_name,
                                         menu_icon_type=menu_icon_type,
-                                        menu_icon_value=menu_icon_value)
+                                        menu_icon_value=menu_icon_value,
+                                        decorators=decorators)
 
         self._manager = manager_of_class(self.model)
 
