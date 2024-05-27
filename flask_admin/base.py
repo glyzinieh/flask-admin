@@ -155,7 +155,8 @@ class BaseView(with_metaclass(AdminViewMeta, BaseViewClass)):
 
     def __init__(self, name=None, category=None, endpoint=None, url=None,
                  static_folder=None, static_url_path=None,
-                 menu_class_name=None, menu_icon_type=None, menu_icon_value=None):
+                 menu_class_name=None, menu_icon_type=None, menu_icon_value=None,
+                 decorators=None):
         """
             Constructor.
 
@@ -186,6 +187,8 @@ class BaseView(with_metaclass(AdminViewMeta, BaseViewClass)):
                  - `flask_admin.consts.ICON_TYPE_IMAGE_URL` - Image with full URL
             :param menu_icon_value:
                 Icon glyph name or URL, depending on `menu_icon_type` setting
+            :param decorators:
+                List of decorators to apply to all the views.
         """
         self.name = name
         self.category = category
@@ -198,6 +201,8 @@ class BaseView(with_metaclass(AdminViewMeta, BaseViewClass)):
         self.menu_class_name = menu_class_name
         self.menu_icon_type = menu_icon_type
         self.menu_icon_value = menu_icon_value
+
+        self.decorators = decorators or []
 
         # Initialized from create_blueprint
         self.admin = None
@@ -270,9 +275,12 @@ class BaseView(with_metaclass(AdminViewMeta, BaseViewClass)):
                                    static_url_path=self.static_url_path)
 
         for url, name, methods in self._urls:
+            view = getattr(self, name)
+            for decorator in self.decorators:
+                view = decorator(view)
             self.blueprint.add_url_rule(url,
                                         name,
-                                        getattr(self, name),
+                                        view,
                                         methods=methods)
 
         return self.blueprint
@@ -439,7 +447,8 @@ class AdminIndexView(BaseView):
                  template='admin/index.html',
                  menu_class_name=None,
                  menu_icon_type=None,
-                 menu_icon_value=None):
+                 menu_icon_value=None,
+                 decorators=None):
         super(AdminIndexView, self).__init__(name or babel.lazy_gettext('Home'),
                                              category,
                                              endpoint or 'admin',
@@ -447,7 +456,8 @@ class AdminIndexView(BaseView):
                                              'static',
                                              menu_class_name=menu_class_name,
                                              menu_icon_type=menu_icon_type,
-                                             menu_icon_value=menu_icon_value)
+                                             menu_icon_value=menu_icon_value,
+                                             decorators=decorators)
         self._template = template
 
     @expose()
