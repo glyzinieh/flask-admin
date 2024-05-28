@@ -1,3 +1,11 @@
+Changes from Upstream
+=====================
+
+- [x] Add decorators args to ViewModel
+- [ ] Supports bootstrap5 for templates
+- [ ] Supports materializeCSS for templates
+
+
 Flask-Admin
 ===========
 
